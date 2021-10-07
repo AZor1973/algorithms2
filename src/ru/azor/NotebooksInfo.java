@@ -21,11 +21,11 @@ public class NotebooksInfo {
         }
     }
 
-    public static void startTime() {
+    private static void startTime() {
         time = System.currentTimeMillis();
     }
 
-    public static void endTime() {
+    private static void endTime() {
         time = System.currentTimeMillis() - time;
     }
 }
