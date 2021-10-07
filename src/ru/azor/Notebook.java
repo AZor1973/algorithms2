@@ -11,7 +11,7 @@ public class Notebook implements Comparable<Notebook> {
     private final String manufacturer;
     private static final Random random = new Random();
     private final static ArrayList<String> MANUFACTURERS = new ArrayList<>(Arrays.asList("Lenuvo", "Asos", "MacNote", "Eser", "Xamiou"));
-    public static final int ARRAY_SIZE = 5000;
+    public static final int ARRAY_SIZE = 10000;
 
     private Notebook(int price, int ram, String manufacturer) {
         this.price = price;
@@ -22,7 +22,7 @@ public class Notebook implements Comparable<Notebook> {
     public static Notebook[] createArrOfNotebooks() {
         Notebook[] arr = new Notebook[ARRAY_SIZE];
         for (int i = 0; i < ARRAY_SIZE; i++) {
-            arr[i] = new Notebook(random.nextInt(10, 61) * 50, random.nextInt(1, 7) * 4, MANUFACTURERS.get(random.nextInt(MANUFACTURERS.size())));
+            arr[i] = new Notebook(random.nextInt(10, 41) * 50, random.nextInt(1, 7) * 4, MANUFACTURERS.get(random.nextInt(MANUFACTURERS.size())));
         }
         return arr;
     }
