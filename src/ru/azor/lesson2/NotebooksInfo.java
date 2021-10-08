@@ -1,4 +1,4 @@
-package ru.azor;
+package ru.azor.lesson2;
 
 public class NotebooksInfo {
     private static Long time;
