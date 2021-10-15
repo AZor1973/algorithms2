@@ -1,14 +1,18 @@
 package ru.azor.lesson3;
 
+import ru.azor.lesson4.LinkedDeque;
+
 public class TestDeque {
     public static void main(String[] args) {
-        Deque<Integer> deque = new DequeImpl<>(5);
-        testRandom(deque);
-        testCirculationDequeLeft(deque);
-        testCirculationDequeRight(deque);
+//        Deque<Integer> deque = new DequeImpl<>(5);
+        LinkedDeque<Integer> linkedDeque = new LinkedDeque<>();
+        testRandom(linkedDeque);
+//        testRandom(deque);
+//        testCirculationDequeLeft(deque);
+//        testCirculationDequeRight(deque);
     }
 
-    private static void testRandom(Deque<Integer> deque) {
+    private static void testRandom(LinkedDeque<Integer> deque) {
         System.out.println("-----------------------------------");
         System.out.println("Random test");
         System.out.println("Clearing the queue: " + deque.removeAll());
@@ -26,6 +30,9 @@ public class TestDeque {
         deque.display();
         System.out.println("Left deletion of an element: " + deque.removeLeft());
         System.out.println("Left deletion of an element: " + deque.removeLeft());
+        deque.display();
+        System.out.println(deque.peekFront());
+        System.out.println("Remove all: " + deque.removeAll());
         deque.display();
         System.out.println("-----------------------------------");
     }
