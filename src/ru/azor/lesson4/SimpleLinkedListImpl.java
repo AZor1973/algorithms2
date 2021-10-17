@@ -1,6 +1,7 @@
 package ru.azor.lesson4;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleLinkedListImpl<E> implements LinkedList<E>, Iterable<E> {
 
@@ -104,7 +105,7 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E>, Iterable<E> {
 
     @Override
     public E getFirst() {
-        return first.item;
+        return isEmpty() ? null : first.item;
     }
 
     @Override
@@ -113,22 +114,34 @@ public class SimpleLinkedListImpl<E> implements LinkedList<E>, Iterable<E> {
     }
 
     private class LinkedListIterator implements Iterator<E> {
+        private Node<E> nextIter;
+        private int nextIndex;
+
+        public LinkedListIterator() {
+            nextIter = first;
+        }
 
         @Override
         public boolean hasNext() {
-            return false;
+            return nextIndex < size;
         }
 
         @Override
         public E next() {
-            return null;
+            if (!hasNext())
+                throw new NoSuchElementException();
+            Node<E> lastReturned = nextIter;
+            nextIter = nextIter.next;
+            nextIndex++;
+            return lastReturned.item;
         }
 
         @Override
         public void remove() {
-            Iterator.super.remove();
+            if (first.next == null) {
+                size = 0;
+            }
+            first = first.next;
         }
-
-
     }
 }

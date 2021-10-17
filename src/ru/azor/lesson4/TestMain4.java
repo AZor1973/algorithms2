@@ -1,15 +1,32 @@
 package ru.azor.lesson4;
 
 
+
 public class TestMain4 {
 
     public static void main(String[] args) {
-        testLinkedList();
+        SimpleLinkedListImpl<Integer> linkedList = new SimpleLinkedListImpl<>();
+        fillSimpleLinkedListImpl(linkedList);
+        testLinkedList(linkedList);
+        testIterator(linkedList);
     }
 
-    private static void testLinkedList() {
-//        LinkedList<Integer> linkedList = new SimpleLinkedListImpl<>();
-        var linkedList = new TwoSideLinkedListImpl<>();
+    private static void testLinkedList(SimpleLinkedListImpl<Integer> linkedList) {
+        System.out.println("----------------------------------");
+        System.out.println("TestLinkedList:");
+        linkedList.display();
+        System.out.println("Find 2: " + linkedList.contains(2));
+        System.out.println("Find 1: " + linkedList.contains(1));
+        System.out.println("Find 4: " + linkedList.contains(4));
+        System.out.println("Find 4444: " + linkedList.contains(4444));
+        System.out.println("Remove first: " + linkedList.removeFirst());
+        System.out.println("Remove 4: " + linkedList.remove(4));
+        System.out.println("Remove 10: " + linkedList.remove(10));
+        linkedList.display();
+        System.out.println("----------------------------------");
+    }
+
+    private static void fillSimpleLinkedListImpl(SimpleLinkedListImpl<Integer> linkedList) {
         linkedList.insertFirst(1);
         linkedList.insertFirst(2);
         linkedList.insertFirst(3);
@@ -18,28 +35,27 @@ public class TestMain4 {
         linkedList.insertFirst(6);
         linkedList.insertFirst(7);
         linkedList.insertFirst(8);
-        linkedList.insertLast(9);
-        linkedList.insertLast(10);
-        linkedList.insertLast(11);
-
-        linkedList.display();
-
-        System.out.println("Find 2: " + linkedList.contains(2));
-        System.out.println("Find 1: " + linkedList.contains(1));
-        System.out.println("Find 4: " + linkedList.contains(4));
-        System.out.println("Find 4444: " + linkedList.contains(4444));
-
-        linkedList.removeFirst();
-        linkedList.remove(4);
-
-        linkedList.display();
-
-
-        //ДОЛЖНО РАБОТАТЬ! Iterable - LinkedListIterator impl Iterator
-
-//        for (Integer value : linkedList) {
-//            System.out.println("value: " + value);
-//        }
     }
 
+    private static void testIterator(SimpleLinkedListImpl<Integer> linkedList){
+        System.out.println("----------------------------------");
+        System.out.println("TestIterator");
+        linkedList.display();
+        System.out.println("Size: " + linkedList.size);
+        for (Integer value : linkedList) {
+            System.out.println("Value is: " + value);
+        }
+        for (Integer ignored : linkedList) {
+            linkedList.iterator().remove();
+        }
+        System.out.println("SizeAfterIteratorRemove: " + linkedList.size);
+        linkedList.display();
+        System.out.print("Remove empty linkedList: ");
+        for (Integer ignored : linkedList) {
+            linkedList.iterator().remove();
+        }
+        System.out.println("OK");
+        linkedList.display();
+        System.out.println("----------------------------------");
+    }
 }
