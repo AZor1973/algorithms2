@@ -75,6 +75,7 @@ public class ThiefChoice {
         things.clear();
         for (int j = flat.size() - length; j < flat.size(); j++) {
             things.add(flat.get(j));
+            if (getSumWeight(things) < MAX_WEIGHT)
             options.add(List.copyOf(things));
         }
         things.clear();
@@ -83,6 +84,7 @@ public class ThiefChoice {
                 continue;
             }
             things.add(flat.get(i));
+            if (getSumWeight(things) < MAX_WEIGHT)
             options.add(List.copyOf(things));
         }
         things.clear();
@@ -90,6 +92,7 @@ public class ThiefChoice {
             things.add(flat.get(i));
             for (int j = i + 1; j < flat.size(); j++) {
                 things.add(flat.get(j));
+                if (getSumWeight(things) < MAX_WEIGHT)
                 options.add(List.copyOf(things));
                 things.clear();
                 things.add(flat.get(i));
