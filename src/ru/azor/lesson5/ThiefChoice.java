@@ -4,9 +4,8 @@ import java.util.*;
 
 public class ThiefChoice {
     private static final int MAX_WEIGHT = 5000;
-    private final Set<List<Thing>> options = new LinkedHashSet<>();
-    private final Set<List<Thing>> matches = new LinkedHashSet<>();
-    private final List<Thing> backpack = new ArrayList<>();
+    private int bestPrice;
+    private List<Thing> backpack = new ArrayList<>();
     private final List<Thing> things = new ArrayList<>();
     private List<Thing> flat = new ArrayList<>();
 
@@ -18,29 +17,9 @@ public class ThiefChoice {
     }
 
     private void stuffBackpack() {
-        options.clear();
-        findOptions(flat.size());
-        checkWeight();
-        fillingBackpack();
+        findOptions(flat);
         System.out.println("Стоимость вещей в рюкзаке: " + getSumCost(backpack));
         System.out.println("----------------------");
-    }
-
-    private void fillingBackpack() {
-        int max = matches.stream().map(this::getSumCost).max(Comparator.naturalOrder()).get();
-        for (List<Thing> match : matches) {
-            if (getSumCost(match) == max) {
-                backpack.addAll(match);
-            }
-        }
-    }
-
-    private void checkWeight() {
-        for (List<Thing> option : options) {
-            if (getSumWeight(option) <= MAX_WEIGHT) {
-                matches.add(option);
-            }
-        }
     }
 
     private int getSumWeight(List<Thing> list) {
@@ -59,44 +38,24 @@ public class ThiefChoice {
         return sum;
     }
 
-    private void findOptions(int length) {
-        if (length == 0) {
-            return;
-        }
-        for (int k = 0; k <= length; k++) {
-            for (int i = 0; i <= length; i++) {
-                findOptions(length - 1);
-                enumeration(length);
-            }
+    private void bestSet(List<Thing> list) {
+        int sum = getSumCost(list);
+        int weight = getSumWeight(list);
+        if (sum > bestPrice && weight < MAX_WEIGHT){
+            bestPrice = sum;
+            backpack = list;
         }
     }
 
-    private void enumeration(int length) {
-        things.clear();
-        for (int j = flat.size() - length; j < flat.size(); j++) {
-            things.add(flat.get(j));
-            if (getSumWeight(things) < MAX_WEIGHT)
-            options.add(List.copyOf(things));
+    private void findOptions(List<Thing> list) {
+        if (list.isEmpty()) {
+            return;
         }
-        things.clear();
-        for (int i = 0; i < flat.size(); i++) {
-            if (i == flat.size() - length) {
-                continue;
-            }
-            things.add(flat.get(i));
-            if (getSumWeight(things) < MAX_WEIGHT)
-            options.add(List.copyOf(things));
-        }
-        things.clear();
-        for (int i = 0; i < flat.size(); i++) {
-            things.add(flat.get(i));
-            for (int j = i + 1; j < flat.size(); j++) {
-                things.add(flat.get(j));
-                if (getSumWeight(things) < MAX_WEIGHT)
-                options.add(List.copyOf(things));
-                things.clear();
-                things.add(flat.get(i));
-            }
+        bestSet(list);
+        for (int i = 0; i < list.size(); i++) {
+            List<Thing> copy = new ArrayList<>(list);
+            copy.remove(i);
+            findOptions(copy);
         }
     }
 
